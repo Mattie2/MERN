@@ -1,3 +1,4 @@
 mongoDBSettings.txt
 *.log
 node_modules/
+config/default.json
