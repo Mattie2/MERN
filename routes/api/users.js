@@ -4,23 +4,10 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-
 const { check, validationResult } = require('express-validator/check');
 
 const User = require('../../models/User');
-// const passwordValidator = require('password-validator');
 
-// let schema = new passwordValidator();
-
-// schema
-//     .is().min(8)
-//     .is().max(40)
-//     .has().uppercase()
-//     .has().lowercase();
-
-// @route   POST api/users
-// @desc    Register route
-// @access  Public (no token required)
 router.post('/',[
     // 1st param dictates the key
     // 2nd param defines the error message if the key's value fails validation
