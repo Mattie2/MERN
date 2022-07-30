@@ -15,6 +15,7 @@ router.get('/me', auth, async (req, res) => {
   try {
     // TODO: get working without token
     if (req.user.id) {
+      console.log(req.user.id);
       const profile = await Profile.findOne({ user: req.user.id }).populate(
         'user',
         ['name', 'avatar']
@@ -23,6 +24,8 @@ router.get('/me', auth, async (req, res) => {
         return res
           .status(400)
           .json({ msg: "There's no profile for this user" });
+      } else {
+        return res.json(profile);
       }
     } else {
       return res.status(400).json({ msg: 'Must provide a valid token' });
@@ -111,5 +114,62 @@ router.post(
     }
   }
 );
+
+// @route   GET api/profile/
+// @desc    Get info about a specified profile
+// @access  Public
+router.get('/', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.body.id }).populate(
+      'user',
+      ['name', 'avatar']
+    );
+    if (!profile) {
+      return res.status(400).json({ msg: 'No profile with this user id' });
+    } else {
+      return res.json(profile);
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// @route   GET api/profile/all
+// @desc    Get info on all profiles
+// @access  Public
+router.get('/all', async (req, res) => {
+  try {
+    const profile = await Profile.find().populate('user', ['name', 'avatar']);
+    if (!profile) {
+      return res.status(400).json({ msg: "There's no profiles yet" });
+    } else {
+      return res.json(profile);
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// @route   DELETE api/profile/
+// @desc    Delete the user, profile and posts
+// @access  Private (token required)
+router.delete('/', auth, async (req, res) => {
+  try {
+    // TODO: get working without token
+
+    // TODO remove user's posts
+
+    // remove profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    // remove user
+    await User.findOneAndRemove({ user: req.user.id });
+    res.json({ msg: 'User deleted' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = router;
