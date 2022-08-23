@@ -152,6 +152,56 @@ router.get('/all', async (req, res) => {
   }
 });
 
+// @route   PUT api/profile/experience
+// @desc    Add profile experience
+// @access  Private
+router.put(
+  '/experience',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('company', 'Company is required').not().isEmpty(),
+      check('from', 'From date is required').not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { title, company, location, from, to, current, description } =
+      req.body;
+
+    const newExperience = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    };
+    try {
+      // using mongoose method to find user by their id
+      const profile = await Profile.findOne({ user: req.user.id });
+      if (profile) {
+        // pushes onto beginning, so the experience goes from newest to oldest
+        profile.experience.unshift(newExperience);
+        await profile.save();
+        res.json(profile);
+      } else {
+        res
+          .status(404)
+          .json({ msg: "This user doesn't have an assocatied profile" });
+      }
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+);
+
 // @route   DELETE api/profile/
 // @desc    Delete the user, profile and posts
 // @access  Private (token required)
@@ -166,6 +216,30 @@ router.delete('/', auth, async (req, res) => {
     // remove user
     await User.findOneAndRemove({ user: req.user.id });
     res.json({ msg: 'User deleted' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// @route   DELETE api/profile/experience
+// @desc    Delete specific experience from user
+// @access  Private (token required)
+router.delete('/experience/:exp_id', [auth], async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.user.id,
+    });
+
+    // Get remove index
+    const removeIndex = profile.experience
+      .map((item) => item.id)
+      .indexOf(req.params.exp_id);
+
+    profile.experience.splice(removeIndex, 1);
+    await profile.save();
+
+    res.json(profile);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Internal Server Error');
