@@ -1,8 +1,10 @@
 //handle registering/adding profile etc
 
 const express = require('express');
+const request = require('request');
 const router = express.Router();
 const auth = require('../../middleware/auth');
+const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 
 const Profile = require('../../models/Profile');
@@ -146,6 +148,37 @@ router.get('/all', async (req, res) => {
     } else {
       return res.json(profile);
     }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// @route   GET api/profile/github/:username
+// @desc    Get repo's from the user's account
+// @access  Public - anyone can view a user's profile
+router.get('/github/:username', async (req, res) => {
+  try {
+    const options = {
+      uri: `https://api.github.com/users/${req.params.username}/repos
+        ?per_page=5
+        &sort=created:asc
+        &client_id=${config.get('githubClientId')}
+        &client_secret={config.get('githubSecret)}`,
+      method: 'GET',
+      headers: { 'user-agent': 'node.js' },
+    };
+
+    request(options, (error, response, body) => {
+      if (error) console.error(error);
+      if (response.statusCode !== 200) {
+        return res
+          .status(response.statusCode)
+          .json({ msg: 'Error finding Github profile' });
+      }
+
+      res.json(JSON.parse(body));
+    });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Internal Server Error');
