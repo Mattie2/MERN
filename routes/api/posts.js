@@ -156,9 +156,89 @@ router.put('/unlike/:id', auth, async (req, res) => {
         .indexOf(req.user.id);
 
       // if the user has liked the post
-      post.likes.splice(index);
+      post.likes.splice(index, 1);
       await post.save();
       return res.json(post.likes);
+    }
+  } catch (error) {
+    console.error(error.message);
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// @route   PUT api/posts/comment/:id
+// @desc    Comment on a post
+// @access  Private (token required)
+router.put(
+  '/comment/:id',
+  auth,
+  [check('text', 'Text field is required').not().isEmpty()],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const user = await User.findById(req.user.id).select('-password');
+      const post = await Post.findById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found' });
+      } else {
+        // append to like to the start of the array
+        post.comments.unshift({
+          user: req.user.id,
+          text: req.body.text,
+          name: user.name,
+          avatar: user.avatar,
+        });
+        await post.save();
+        return res.json(post.comments);
+      }
+    } catch (error) {
+      console.error(error.message);
+      if (error.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Post not found' });
+      }
+      res.status(500).send('Internal Server Error');
+    }
+  }
+);
+
+// @route   PUT api/posts/uncomment/:post_id/:comment_id
+// @desc    Remove comment
+// @access  Private (token required)
+router.put('/uncomment/:post_id/:comment_id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    } else {
+      // check if the post contains a comment with matching id
+
+      const comment = post.comments.find(
+        (comment) => comment.id === req.params.comment_id
+      );
+
+      if (!comment) {
+        return res.status(404).json({ msg: 'Comment not found' });
+      }
+      // if the comment was written by the user
+      if (comment.user.toString() !== req.user.id) {
+        return res.status(401).send('Not authorised to remove comment');
+      }
+
+      const index = post.comments
+        .map((comment) => comment.id.toString())
+        .indexOf(req.params.comment_id);
+
+      post.comments.splice(index, 1);
+      await post.save();
+      return res.json(post.comments);
     }
   } catch (error) {
     console.error(error.message);
