@@ -16,7 +16,7 @@ npm install
 
 ### Environment Variables
 
-Create an `.env` file in the root directory and add the following variables:
+Create an `default.json` file in the config directory and add the keys:
 
-MONGO*URI=\_mongo_db_connection_string*
-JWT*SECRET=\_your_jwt_secret*
+mongoURI=_mongo_db_connection_string_
+jwtSECRET=_your_jwt_secret_
