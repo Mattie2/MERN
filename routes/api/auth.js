@@ -23,7 +23,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route   POST api/auth
-// @desc    Authenticate user & gett token
+// @desc    Authenticate user & get token
 // @access  Public (no token required)
 router.post('/',[
     // 1st param dictates the key
@@ -40,7 +40,7 @@ router.post('/',[
         return res.status(400).json({ errors: errors.array()});
     }
 
-    const { email, password} = req.body;
+    const { email, password } = req.body;
 
     try{
         // check if user exists - if already exists - send back an error

@@ -137,6 +137,25 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET api/profile/user/:user_id
+// @desc    Get profile by the user id
+// @access  public
+router.get('/user/:user_id', async (req, res) => {
+  try{
+    const profile = await Profile.findOne({ user: req.params.user_id}).populate('user', ['name', 'avatar']);
+
+    if (!profile) return res.status(400).json({msg: 'Profile not found'});
+
+    res.json(profile);
+  }catch(err){
+    console.log(err.message);
+    if (err.kind == 'ObjectId'){
+      return res.status(400).json({msg: 'Profile not found'});
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET api/profile/all
 // @desc    Get info on all profiles
 // @access  Public
@@ -160,11 +179,9 @@ router.get('/all', async (req, res) => {
 router.get('/github/:username', async (req, res) => {
   try {
     const options = {
-      uri: `https://api.github.com/users/${req.params.username}/repos
-        ?per_page=5
-        &sort=created:asc
-        &client_id=${config.get('githubClientId')}
-        &client_secret={config.get('githubSecret)}`,
+      uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&
+      sort=created:asc&client_id=${config.get('githubClientId')}&
+      client_secret=${config.get('githubSecret')}`,
       method: 'GET',
       headers: { 'user-agent': 'node.js' },
     };
@@ -172,6 +189,7 @@ router.get('/github/:username', async (req, res) => {
     request(options, (error, response, body) => {
       if (error) console.error(error);
       if (response.statusCode !== 200) {
+        console.log(req.params.username)
         return res
           .status(response.statusCode)
           .json({ msg: 'Error finding Github profile' });
@@ -291,14 +309,12 @@ router.put(
 // @access  Private (token required)
 router.delete('/', auth, async (req, res) => {
   try {
-    // TODO: get working without token
-
-    // TODO remove user's posts
+    // TODO: remove user's posts
 
     // remove profile
-    await Profile.findOneAndRemove({ user: req.user.id });
+    await Profile.findOneAndDelete({ user: req.user.id });
     // remove user
-    await User.findOneAndRemove({ user: req.user.id });
+    await User.findOneAndDelete({ _id: req.user.id });
     res.json({ msg: 'User deleted' });
   } catch (error) {
     console.error(error.message);
@@ -306,7 +322,7 @@ router.delete('/', auth, async (req, res) => {
   }
 });
 
-// @route   DELETE api/profile/experience
+// @route   DELETE api/profile/experience/:experience_id
 // @desc    Delete specific experience from user
 // @access  Private (token required)
 router.delete('/experience/:exp_id', [auth], async (req, res) => {
