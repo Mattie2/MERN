@@ -10,6 +10,7 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // name of the user, enables users to be deleted without deleting their posts
   name: {
     type: String,
   },
