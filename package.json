@@ -1,5 +1,16 @@
 {
+  "name": "devconnnector",
+  "version":"1.0.0",
+  "description": "Social network for developers",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "author": "Matthew Gale",
+  "license": "MIT",
   "dependencies": {
+    "@aws-sdk/core": "^3.529.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.12",
     "express": "^4.19.2",
