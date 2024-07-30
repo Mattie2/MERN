@@ -19,4 +19,5 @@ npm install
 Create an `default.json` file in the config directory and add the keys:
 
 mongoURI=_mongo_db_connection_string_
-jwtSECRET=_your_jwt_secret_
+jwtSecret=_your_jwt_secret_
+jwtExpirationTime=_default is 3600 (its in milliseconds)_
