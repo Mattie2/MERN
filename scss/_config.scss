@@ -19,5 +19,4 @@ $max-width: 1100px;
 @mixin set-background($color) {
     background-color: $color;
     color: set-text-color($color);
-
 }
