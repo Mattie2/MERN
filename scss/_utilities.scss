@@ -167,3 +167,14 @@
     // rgba - alpha dictates the opacity.
     background-color:rgba(0,0,0,0.7);
 }
+
+.table{
+    th, td{
+        padding: 1rem;
+        text-align: left;
+    }
+
+    th{
+        background-color: $light-color;
+    }
+}
