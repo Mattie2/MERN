@@ -1,0 +1,106 @@
+@media (max-width: 700px) {
+    .hide-sm {
+        display: none;
+    }
+    
+    .container {
+        margin-top: 8rem;
+    }
+
+    // Text list-styles
+    .x-large{
+        font-size: 3rem;
+    }
+
+    .large{
+        font-size: 2rem;
+    }
+
+    .lead{
+        font-size: 1rem;
+    }
+
+    // Navbar
+    .navbar {
+        display: block;
+        text-align: center;
+
+        ul {
+            text-align: center;
+            justify-content: center;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+    }
+
+    .dash-buttons a {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.2rem;
+    }
+
+    // Profiles
+    .profile {
+        grid-template-columns: 1fr;
+        justify-content: center;
+        justify-items: center;
+        text-align: center;
+
+        // hide the user's skills
+        ul{
+            display: none;
+        }
+    }
+
+    // Profile Page
+    .profile-grid{
+        grid-template-areas: 
+        'top'
+        'about'
+        'exp'
+        'edu'
+        'github';
+        grid-gap: 1rem;
+
+        .profile-top {
+            img {
+                width:200px;
+            }
+        }
+
+        .profile-about {
+            .skills {
+                flex-direction: column;
+                .p-1{
+                    padding:0.2rem;
+                }
+            };
+        }
+
+        .profile-github {
+            .repo {
+                display: flex;
+                
+                & > div:first-child {
+                    flex: 6;
+                    flex-basis: 60%;
+                }
+
+                & > div:last-child {
+                    flex: 4;
+                    flex-basis: 40%;
+                }
+            }
+        }
+
+    };
+
+    // Posts Page
+    .post{
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap:0rem;
+    }
+}
