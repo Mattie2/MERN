@@ -2,7 +2,7 @@
 
 ## Backend Dependencies
 
-- **Node.js**: v20.15.0
+- **Node.js**: v20.16.0
 
 ## Frontend Dependencies
 
