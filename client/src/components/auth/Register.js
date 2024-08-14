@@ -2,9 +2,10 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 import PropTypes from 'prop-types'
 
-const Register = ({setAlert}) => {
+const Register = ({setAlert, register}) => {
     // setting default values for the form
     const [formData, setFormData] = useState({
         name: '',
@@ -25,6 +26,7 @@ const Register = ({setAlert}) => {
                 setAlert('Passwords do not match!', 'danger')
             }else{
                 console.log('success');
+                register( {name, email, password})
             }
     };
     return (
@@ -38,17 +40,17 @@ const Register = ({setAlert}) => {
             </p>
             <form className="form" onSubmit={e => onSubmit(e)}>
                 <div className="form-group">
-                    <input type="text" placeholder="Name" name='name' value={name} onChange={e=>onChange(e)} required/>
+                    <input type="text" placeholder="Name" name='name' value={name} onChange={e=>onChange(e)} />
                 </div>
                 <div className="form-group">
-                    <input type="email" placeholder="Email Address" name='email' value={email} onChange={e=>onChange(e)} required/>
+                    <input type="email" placeholder="Email Address" name='email' value={email} onChange={e=>onChange(e)} />
                     <small className="form-text">This site uses Gravatar, so use a Gravatar email if you want a profile picture</small>
                 </div>
                 <div className="form-group">
-                    <input type="password" placeholder="Password" name='password' value={password} minLength="6" onChange={e=>onChange(e)}/>
+                    <input type="password" placeholder="Password" name='password' value={password} onChange={e=>onChange(e)}/>
                 </div>
                 <div className="form-group">
-                    <input type="password" placeholder="Confirm Password" name='password2' value={password2} minLength="6" onChange={e=>onChange(e)}/>
+                    <input type="password" placeholder="Confirm Password" name='password2' value={password2}  onChange={e=>onChange(e)}/>
                 </div>
                 <input type="submit" value="Register" className="btn btn-primary"/>
             </form>
@@ -59,6 +61,9 @@ const Register = ({setAlert}) => {
     )
 }
 
-Register.propTypes={setAlert: PropTypes.func.isRequired};
+Register.propTypes={
+    setAlert: PropTypes.func.isRequired,
+    register:PropTypes.func.isRequired
+};
 
-export default connect(null, {setAlert})(Register);
+export default connect(null, {setAlert, register})(Register);
