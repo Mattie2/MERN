@@ -10,7 +10,7 @@ const User = require('../../models/User');
 
 // @route   GET api/auth
 // @desc    Test route
-// @access  Public (no token required)
+// @access  Protected (token required)
 router.get('/', auth, async (req, res) => {
     try{
         // return everything apart from the password
