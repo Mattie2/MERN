@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from '../actions/types';
 
 const initialState = {
     token: localStorage.getItem('token'),
@@ -11,17 +11,24 @@ export default function(state = initialState, action) {
     const {type, payload } = action;
     
     switch (type){
-        case REGISTER_SUCCESS:
-
-            localStorage.setItem('token', payload.token);
+        case USER_LOADED:
             // using ... because state is immutable
             // loading is false because we've gotten the response 
+            return{
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                user: payload
+            }
+        case REGISTER_SUCCESS:
+            localStorage.setItem('token', payload.token);
             return{
                 ...state,
                 ...payload,
                 isAuthenticated: true,
                 loading: false   
             }
+        case AUTH_ERROR:
         case REGISTER_FAIL:
             // ensure user is no longer logged in if they were previously
             localStorage.removeItem('token');
