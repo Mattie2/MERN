@@ -15,10 +15,8 @@ import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
-if(localStorage.token){
+if ( localStorage.token ){
   setAuthToken(localStorage.token);
-}else{
-  console.error('token not present in app.js')
 }
 
 const App = () => { 
