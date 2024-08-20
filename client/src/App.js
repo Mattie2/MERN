@@ -37,30 +37,10 @@ const App = () => {
       <Alert />
       <Routes>
         <Route element={ <Landing/> } path="/"/>
-        {/* <Route element={
-                <section className="container">
-                  <Alert />
-                  <Routes>
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
-                  </Routes>
-                </section>
-              }
-        /> */}
         <Route element={< Register/>} path="/register"/>
         <Route element={ <Login/>} path="/login"/>
+        <Route element={ <PrivateRoute component={Dashboard}/>} path="/dashboard"/>
       </Routes>
-        {/* <section className='container'>
-          <Alert />
-          <Routes>
-            <Route element={< Register/>} path="/register"/>
-            <Route element={ <Login/>} path="/login"/>
-            {/* <Route exact path="/dashboard" element={ <Dashboard/>}/> }
-            <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard/>}/>
-            </Route>
-          </Routes>
-        </section> */}
 
     </Fragment>
   </Router>
