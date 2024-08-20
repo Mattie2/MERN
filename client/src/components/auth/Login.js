@@ -25,8 +25,7 @@ const Login = ({ login, isAuthenticated }) => {
     }
 
     return (
-        <Fragment>
-
+        <section className='container'>
             <h1 className="large text-primary">
                 Sign In
             </h1>
@@ -46,7 +45,7 @@ const Login = ({ login, isAuthenticated }) => {
             <p className="my-1">
                 Don't have an account? <Link to="/register">Sign Up</Link>
             </p>
-        </Fragment>
+        </section>
     )
 }
 

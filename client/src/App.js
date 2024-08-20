@@ -5,6 +5,7 @@ import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/PrivateRoute';
 import Alert from './components/layout/Alert';
 
 // Redux
@@ -33,17 +34,33 @@ const App = () => {
   <Router>
     <Fragment>
       <Navbar />
+      <Alert />
       <Routes>
-        <Route exact path="/" element={ <Landing/> }/>
+        <Route element={ <Landing/> } path="/"/>
+        {/* <Route element={
+                <section className="container">
+                  <Alert />
+                  <Routes>
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                  </Routes>
+                </section>
+              }
+        /> */}
+        <Route element={< Register/>} path="/register"/>
+        <Route element={ <Login/>} path="/login"/>
       </Routes>
-        <section className='container'>
+        {/* <section className='container'>
           <Alert />
           <Routes>
-            <Route exact path="/register" element={< Register/>}/>
-            <Route exact path="/login" element={ <Login/>}/>
-            <Route exact path="/dashboard" element={ <Dashboard/>}/>
+            <Route element={< Register/>} path="/register"/>
+            <Route element={ <Login/>} path="/login"/>
+            {/* <Route exact path="/dashboard" element={ <Dashboard/>}/> }
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard/>}/>
+            </Route>
           </Routes>
-        </section>
+        </section> */}
 
     </Fragment>
   </Router>
