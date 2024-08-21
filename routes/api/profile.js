@@ -17,7 +17,6 @@ router.get('/me', auth, async (req, res) => {
   try {
     // TODO: get working without token
     if (req.user.id) {
-      console.log(req.user.id);
       const profile = await Profile.findOne({ user: req.user.id }).populate(
         'user',
         ['name', 'avatar']
