@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { login } from '../../actions/auth';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
