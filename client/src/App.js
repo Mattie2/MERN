@@ -6,7 +6,6 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
-import Alert from './components/layout/Alert';
 
 // Redux
 //Provider links redux and react together
