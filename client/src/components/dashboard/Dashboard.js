@@ -1,18 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentUsersProfile } from '../../actions/profile';
+import Spinner from '../layout/Spinner';
 
-const Dashboard = ({getCurrentUsersProfile, auth, profile}) => {
+const Dashboard = ({
+  getCurrentUsersProfile, 
+  auth: { user }, 
+  profile: {profile, loading}
+}) => {
   useEffect(() => {
     getCurrentUsersProfile();
   }, []);
 
-  return (
-    <section className='container'>
-      Dashboard
+  // 
+  return loading && profile === null ? <Spinner /> : <section className='container'>
+        <h1 className='large text-primary'>Dashboard</h1>
+        <p className='lead'>
+          <i className='fas fa-user'></i> Welcome { user && user.name }
+        </p>
     </section>
-  )
 }
 
 Dashboard.propTypes = {
