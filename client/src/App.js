@@ -6,6 +6,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
+import CreateProfile from './components/profile-forms/CreateProfile';
 
 // Redux
 //Provider links redux and react together
@@ -38,6 +39,7 @@ const App = () => {
         <Route element={< Register/>} path="/register"/>
         <Route element={ <Login/>} path="/login"/>
         <Route element={ <PrivateRoute component={Dashboard}/>} path="/dashboard"/>
+        <Route element={ <PrivateRoute component={CreateProfile}/>} path="/create-profile"/>
       </Routes>
 
     </Fragment>
