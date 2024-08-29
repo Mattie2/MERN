@@ -2,9 +2,11 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentUsersProfile } from '../../actions/profile';
+import { Link } from 'react-router-dom';
+
 import Spinner from '../layout/Spinner';
 import Alert from '../layout/Alert';
-import { Link } from 'react-router-dom';
+import DashboardActions from './DashboardActions';
 
 const Dashboard = ({
   getCurrentUsersProfile, 
@@ -23,7 +25,9 @@ const Dashboard = ({
           <i className='fas fa-user'></i> Welcome { user && user.name }
         </p>
         {profile !== null ? (
-          <Fragment>has</Fragment>
+          <Fragment>
+            <DashboardActions />
+          </Fragment>
           ) : (
           <Fragment>
             <p class='alert alert-danger'>There is no profile associated with this account. Please create your profile. </p>
