@@ -8,6 +8,8 @@ import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
 
 // Redux
 //Provider links redux and react together
@@ -42,6 +44,8 @@ const App = () => {
         <Route element={ <PrivateRoute component={Dashboard}/>} path="/dashboard"/>
         <Route element={ <PrivateRoute component={CreateProfile}/>} path="/create-profile"/>
         <Route element={ <PrivateRoute component={EditProfile}/>} path="/edit-profile"/>
+        <Route element={ <PrivateRoute component={AddExperience}/>} path="/add-experience"/>
+        <Route element={ <PrivateRoute component={AddEducation}/>} path="/add-education"/>
       </Routes>
 
     </Fragment>
