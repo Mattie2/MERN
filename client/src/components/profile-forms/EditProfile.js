@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createProfile, getCurrentUsersProfile } from '../../actions/profile';
 import Alert from '../layout/Alert';
 
@@ -179,7 +179,7 @@ const EditProfile = ({profile: { profile, loading }, createProfile, getCurrentUs
                 }
 
                 <input type="submit" className="btn btn-primary my-1" />
-                <a className="btn btn-light my-1" href="dashboard.html">Go Back</a>
+                <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
             </form>
         </div>
     )
