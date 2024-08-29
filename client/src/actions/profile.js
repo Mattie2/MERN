@@ -37,7 +37,7 @@ export const createProfile = (formData, navigate, edit = false) => async dispatc
             payload:res.data
         });
 
-        dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created'));
+        dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
         // if creating a new profile, redirect to a new page
         if (!edit){
