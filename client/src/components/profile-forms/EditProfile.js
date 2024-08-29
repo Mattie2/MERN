@@ -67,7 +67,7 @@ const EditProfile = ({profile: { profile, loading }, createProfile, getCurrentUs
 
     const onSubmit = async e => {
         e.preventDefault();
-        createProfile(formData, navigate)
+        createProfile(formData, navigate, true)
     };
 
     return (
