@@ -233,20 +233,30 @@ router.put(
       description,
     };
     try {
-      // using mongoose method to find user by their id
-      const profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        // pushes onto beginning, so the experience goes from newest to oldest
-        profile.experience.unshift(newExperience);
-        await profile.save();
-        res.json(profile);
-      } else {
+      if (new Date(from) > new Date(to)){
+        // validating the from date is earlier than to 'to' date
         res
-          .status(404)
-          .json({ msg: "This user doesn't have an assocatied profile" });
+          .status(400)
+          .json({ msg: "'From' Date must be before 'To' date" });
+      }else if(new Date(to) > new Date()){
+        res
+          .status(400)
+          .json({ msg: "'To' date cannot be in the future" });
+      }else{
+        // using mongoose method to find user by their id
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+          // pushes onto beginning, so the experience goes from newest to oldest
+          profile.experience.unshift(newExperience);
+          await profile.save();
+          res.json(profile);
+        } else {
+          res
+            .status(404)
+            .json({ msg: "This user doesn't have an assocatied profile" });
+        }
       }
     } catch (error) {
-      console.error(error.message);
       res.status(500).send('Internal Server Error');
     }
   }
@@ -284,17 +294,28 @@ router.put(
       description,
     };
     try {
-      // using mongoose method to find user by their id
-      const profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        // pushes onto beginning, so the education goes from newest to oldest
-        profile.education.unshift(newEducation);
-        await profile.save();
-        res.json(profile);
-      } else {
+      if (new Date(from) > new Date(to)){
+        // validating the from date is earlier than to 'to' date
         res
-          .status(404)
-          .json({ msg: "This user doesn't have an assocatied profile" });
+          .status(400)
+          .json({ msg: "'From' Date must be before 'To' date" });
+      }else if(new Date(to) > new Date()){
+        res
+          .status(400)
+          .json({ msg: "'To' date cannot be in the future" });
+      }else{
+        // using mongoose method to find user by their id
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+          // pushes onto beginning, so the education goes from newest to oldest
+          profile.education.unshift(newEducation);
+          await profile.save();
+          res.json(profile);
+        } else {
+          res
+            .status(404)
+            .json({ msg: "This user doesn't have an assocatied profile" });
+        } 
       }
     } catch (error) {
       console.error(error.message);

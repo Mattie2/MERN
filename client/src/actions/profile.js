@@ -78,10 +78,10 @@ export const addExperience = (formData, navigate) => async dispatch => {
 
     }catch(err){
         console.error(err)
-        const errors = err.response.data.errors;
+        const error = err.response.data;
 
-        if (errors){
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        if (error){
+            dispatch(setAlert(error.msg, 'danger'));
         }
 
         dispatch({
