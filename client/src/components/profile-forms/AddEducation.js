@@ -80,7 +80,7 @@ const AddEducation = ({addEducation}) => {
         </div>
         <div className="form-group">
           <h4>From Date</h4>
-          <input type="date" name="from" value={from} onChange={(e) => onChange(e)}/>
+          <input type="date" name="from" value={from} onChange={(e) => onChange(e)} required/>
         </div>
         <div className="form-group">
           <p>
