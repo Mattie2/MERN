@@ -112,11 +112,11 @@ export const addEducation = (formData, navigate) => async dispatch => {
         navigate('/dashboard');
         
     }catch(err){
-        console.error(err)
-        const errors = err.response.data.errors;
+        console.error(`error ${err}`)
+        const error = err.response.data;
 
-        if (errors){
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        if (error){
+            dispatch(setAlert(error.msg, 'danger'));
         }
 
         dispatch({
