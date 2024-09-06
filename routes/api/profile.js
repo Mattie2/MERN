@@ -17,7 +17,6 @@ router.get('/me', auth, async (req, res) => {
   try {
     // TODO: get working without token
     if (req.user.id) {
-      console.log(req.user.id);
       const profile = await Profile.findOne({ user: req.user.id }).populate(
         'user',
         ['name', 'avatar']
@@ -234,20 +233,31 @@ router.put(
       description,
     };
     try {
-      // using mongoose method to find user by their id
-      const profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        // pushes onto beginning, so the experience goes from newest to oldest
-        profile.experience.unshift(newExperience);
-        await profile.save();
-        res.json(profile);
-      } else {
+      if (new Date(from) > new Date(to)){
+        // validating the from date is earlier than to 'to' date
         res
-          .status(404)
-          .json({ msg: "This user doesn't have an assocatied profile" });
+          .status(400)
+          .json({ msg: "'From' Date must be before 'To' date" });
+      }else if(new Date(to) > new Date()){
+        res
+          .status(400)
+          .json({ msg: "'To' date cannot be in the future" });
+      }else{
+        // using mongoose method to find user by their id
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+          // pushes onto beginning, so the experience goes from newest to oldest
+          profile.experience.unshift(newExperience);
+          await profile.save();
+          res.json(profile);
+        } else {
+          res
+            .status(404)
+            .json({ msg: "This user doesn't have an assocatied profile" });
+        }
       }
     } catch (error) {
-      console.error(error.message);
+      console.error(error.message)
       res.status(500).send('Internal Server Error');
     }
   }
@@ -285,20 +295,31 @@ router.put(
       description,
     };
     try {
-      // using mongoose method to find user by their id
-      const profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        // pushes onto beginning, so the education goes from newest to oldest
-        profile.education.unshift(newEducation);
-        await profile.save();
-        res.json(profile);
-      } else {
+      if (new Date(from) > new Date(to)){
+        // validating the from date is earlier than to 'to' date
         res
-          .status(404)
-          .json({ msg: "This user doesn't have an assocatied profile" });
+          .status(400)
+          .json({ msg: "'From' Date must be before 'To' date" });
+      }else if(new Date(to) > new Date()){
+        res
+          .status(400)
+          .json({ msg: "'To' date cannot be in the future" });
+      }else{
+        // using mongoose method to find user by their id
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+          // pushes onto beginning, so the education goes from newest to oldest
+          profile.education.unshift(newEducation);
+          await profile.save();
+          res.json(profile);
+        } else {
+          res
+            .status(404)
+            .json({ msg: "This user doesn't have an assocatied profile" });
+        } 
       }
     } catch (error) {
-      console.error(error.message);
+      // console.error(error.message);
       res.status(500).send('Internal Server Error');
     }
   }
@@ -346,8 +367,8 @@ router.delete('/experience/:exp_id', [auth], async (req, res) => {
   }
 });
 
-// @route   DELETE api/profile/experience
-// @desc    Delete specific experience from user
+// @route   DELETE api/profile/education/:education_id
+// @desc    Delete specific education from user
 // @access  Private (token required)
 router.delete('/education/:edu_id', [auth], async (req, res) => {
   try {
@@ -358,7 +379,7 @@ router.delete('/education/:edu_id', [auth], async (req, res) => {
     // Get remove index
     const removeIndex = profile.education
       .map((item) => item.id)
-      .indexOf(req.params.exp_id);
+      .indexOf(req.params.edu_id);
     // remove from profile object
     profile.education.splice(removeIndex, 1);
     await profile.save();

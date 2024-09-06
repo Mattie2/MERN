@@ -4,6 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types'
+import Alert from '../layout/Alert';
 
 const Register = ({setAlert, register, isAuthenticated}) => {
     // setting default values for the form
@@ -37,6 +38,7 @@ const Register = ({setAlert, register, isAuthenticated}) => {
 
     return (
         <section className='container'>
+            <Alert />
             <h1 className="large text-primary">
                 Sign Up
             </h1>

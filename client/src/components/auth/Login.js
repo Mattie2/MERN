@@ -2,7 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { login } from '../../actions/auth';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import Alert from '../layout/Alert';
 
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const Login = ({ login, isAuthenticated }) => {
 
     return (
         <section className='container'>
+            <Alert />
             <h1 className="large text-primary">
                 Sign In
             </h1>
