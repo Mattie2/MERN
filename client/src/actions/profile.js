@@ -159,3 +159,37 @@ export const addEducation = (formData, navigate) => async dispatch => {
         })
     }
 }
+
+// Delete education
+export const deleteEducation = (educationID) => async dispatch => {
+    try {
+        const config = {
+            header: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+
+        const res = await axios.delete(`/api/profile/education/${educationID}`, config);
+
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload:res.data
+        });
+
+        dispatch(setAlert('Deleted Education', 'success'));
+
+    }catch(err){
+        console.error(err)
+        const error = err.response.data;
+
+        if (error){
+            dispatch(setAlert(error.msg, 'danger'));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
+        })
+    }
+}
