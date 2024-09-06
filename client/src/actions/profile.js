@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, DELETE_ACCOUNT } from './types';
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, DELETE_ACCOUNT, CLEAR_PROFILE } from './types';
 
 // Get current user's profile
 export const getCurrentUsersProfile = () => async dispatch => {
@@ -58,37 +58,37 @@ export const createProfile = (formData, navigate, edit = false) => async dispatc
 
 // Delete account
 export const deleteAccount = (navigate) => async dispatch => {
-    try {
-        const config = {
-            header: {
-                'Content-Type': 'application/json'
+    if(window.confirm('Are you sure? This can not be undone!')){
+        try {
+            const config = {
+                header: {
+                    'Content-Type': 'application/json'
+                }
             }
+
+            // No id needed as that's part of the JWT token
+            const res = await axios.delete(`/api/profile/`, config);
+
+            dispatch({type: CLEAR_PROFILE});
+            dispatch({type: DELETE_ACCOUNT});
+
+            dispatch(setAlert('Deleted Account', 'success'));
+
+            navigate('/register');
+
+        }catch(err){
+            console.error(err)
+            const error = err.response.data;
+
+            if (error){
+                dispatch(setAlert(error.msg, 'danger'));
+            }
+
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {msg: err.response.statusText, status: err.response.status}
+            })
         }
-
-        // No id needed as that's part of the JWT token
-        const res = await axios.delete(`/api/profile/`, config);
-
-        dispatch({
-            type: DELETE_ACCOUNT,
-            payload:res.data
-        });
-
-        dispatch(setAlert('Deleted Account', 'success'));
-
-        navigate('/register');
-
-    }catch(err){
-        console.error(err)
-        const error = err.response.data;
-
-        if (error){
-            dispatch(setAlert(error.msg, 'danger'));
-        }
-
-        dispatch({
-            type: PROFILE_ERROR,
-            payload: {msg: err.response.statusText, status: err.response.status}
-        })
     }
 }
 
