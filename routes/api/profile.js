@@ -367,8 +367,8 @@ router.delete('/experience/:exp_id', [auth], async (req, res) => {
   }
 });
 
-// @route   DELETE api/profile/experience
-// @desc    Delete specific experience from user
+// @route   DELETE api/profile/education/:education_id
+// @desc    Delete specific education from user
 // @access  Private (token required)
 router.delete('/education/:edu_id', [auth], async (req, res) => {
   try {
@@ -379,7 +379,7 @@ router.delete('/education/:edu_id', [auth], async (req, res) => {
     // Get remove index
     const removeIndex = profile.education
       .map((item) => item.id)
-      .indexOf(req.params.exp_id);
+      .indexOf(req.params.edu_id);
     // remove from profile object
     profile.education.splice(removeIndex, 1);
     await profile.save();
