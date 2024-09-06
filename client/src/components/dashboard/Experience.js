@@ -8,7 +8,7 @@ const Experience = ({ experience }) => {
         <tr key={exp._id}>
             <td>{exp.company}</td>
             <td className='hide-sm'>{exp.title}</td>
-            <td>
+            <td className='hide-sm'>
                 <Moment format='YYYY/MM/DD'>{exp.from}</Moment> - {
                     exp.to == null ? (' Now') : (<Moment format='YYYY/MM/DD'>{exp.to}</Moment>)
                 }
@@ -21,7 +21,7 @@ const Experience = ({ experience }) => {
     return (
         <Fragment>
             <h2 className='my-2'>
-                <i className='fab fa-black-tie'></i> Experience Credentials
+                <i className='fab fa-black-tie'></i> Work Experience
             </h2>
             <table className='table'>
                 <thead>
