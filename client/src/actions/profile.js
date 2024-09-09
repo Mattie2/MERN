@@ -119,7 +119,7 @@ export const deleteAccount = (navigate) => async dispatch => {
             }
 
             // No id needed as that's part of the JWT token
-            const res = await axios.delete(`/api/profile/`, config);
+            await axios.delete(`/api/profile/`, config);
 
             dispatch({type: CLEAR_PROFILE});
             dispatch({type: DELETE_ACCOUNT});

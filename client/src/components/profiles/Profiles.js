@@ -8,7 +8,8 @@ import { getAllProfiles } from '../../actions/profile';
 const Profiles = ({ getAllProfiles, profile: { profiles, loading} }) => {
     useEffect(() => {
         getAllProfiles();
-    }, []);
+        // getAllPRofiles added to the array to show that it's a dependency
+    }, [getAllProfiles]);
 
     return (
         <div className='container'>
