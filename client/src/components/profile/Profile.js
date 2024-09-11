@@ -1,5 +1,5 @@
-import React, {Fragment, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import React, {Fragment, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -14,7 +14,12 @@ const Profile = ({ getProfileById, profile: {profile, loading}, auth }) => {
 
     return (
         <div className='container'>
-        profile
+            {profile === null || loading ? < Spinner /> : 
+            <Fragment>
+                <Link to='/profiles' className='btn btn-light'>
+                    Back To Profiles
+                </Link>
+            </Fragment>}
         </div>
     )
 }
